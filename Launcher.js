@@ -1,23 +1,23 @@
 class Launcher{
-    constructor(bodyA, pointB){
-       var options = {
-        bodyA: bodyA,
-        pointB: pointB,
-        stiffness: 0.04,
-        lenght: 10
-       }
+    constructor(bodyA, bodyB){
+        var options = {
+            bodyA: bodyA,
+            bodyB: bodyB,
+            stiffness: 0.04,
+            length: 10
+        }
+        this.pointB = this.pointB
+        this.launcher = Constraint.create(options);
+        World.add(world, this.launcher);
     }
-
-    this.pointB = pointB
-    this.Sling = Constraint.create(options);
-
-    World.add(world, this.Sling);
-}
-
-display(){
-    var pointA = this.Sling.bodyA.position;
-    var pointB = this.pointB;
-
-    StrokeWeight(4);
-    line(pointA.x, point.A.y, point.B.x, point.B.y);
+    fly(){
+        this.launcher.bodyA = null;
+    }
+    
+    display(){
+        var pointA = this.launcher.bodyA.position;
+        var pointB = this.launcher.bodyB.position;
+        strokeWeight(4);
+        line(pointA.x, pointA.y, pointB.x, pointB.y)
+    }
 }

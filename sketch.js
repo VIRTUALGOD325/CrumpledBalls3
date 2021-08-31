@@ -1,4 +1,3 @@
-
 var ball, ballIMG;
 var dustbinIMG;
 
@@ -16,15 +15,15 @@ function preload()
 function setup() {
 	createCanvas(800, 700);
 
-	ball=createSprite(width/2, 120, 10,10);
-	ball.addImage(ballIMG);
-	ball.scale = 0.6;
+	paper = new Paper(width/2, 120, 10,10);
+	paper.addImage(ballIMG);
+	paper.scale = 0.6;
 
 
 	engine = Engine.create();
 	world = engine.world;
 
-	ball = Bodies.circle(width/2 , 200 , 5 , {restitution:0.5, isStatic:true});
+	paper = Bodies.circle(width/2 , 200 , 5 , {restitution:0.5, isStatic:true});
 
 	groundSprite=createSprite(width/2, height-35, width,10);
 	groundSprite.shapeColor=color(255)
@@ -34,14 +33,14 @@ function setup() {
 	dropGround.scale = 0.6;
 
 
-	World.add(world, ball);
+	World.add(world, paper);
 
 	ground = Bodies.rectangle(width/2, 650, width, 10 , {isStatic:true} );
 	 World.add(world, ground);
 	
 	Engine.run(engine);
 
-	launcher = new Launcher(ball.body{x:200, y:100});
+	launcher = new Launcher(paper.body,{x:200, y:100});
 
 
 	keyPressed();
@@ -53,7 +52,8 @@ function draw() {
   rectMode(CENTER);
   background(1);
 
-  launcher.display();
+  paper.display();
+  //launcher.display();
   
   drawSprites();
  
@@ -64,5 +64,4 @@ function keyPressed(){
 		ball.velocityY = 3;
 	}
 }
-
 
