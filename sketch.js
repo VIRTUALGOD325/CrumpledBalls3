@@ -1,67 +1,59 @@
-var ball, ballIMG;
-var dustbinIMG;
-
-const Engine = Matter.Engine;
-const World = Matter.World;
+const Engine= Matter.Engine;
+const World= Matter.World;
 const Bodies = Matter.Bodies;
-const Body = Matter.Body;
+const Constraint = Matter.Constraint;
 
-function preload()
+var engine, world;
+var ground,paper;
+var binImg,bin;
+
+
+function preload(){
+    binImg = loadImage("dustbin.png");
+  
+}
+function setup(){
+    var canvas = createCanvas(1350,600);
+    engine = Engine.create();
+    world = engine.world;
+
+    ground = new Ground();
+    paper = new Paper();
+
+    bin = createSprite(964,500,20,20);
+    bin.addImage(binImg);
+    bin.scale = 0.45;
+
+    binPart1 = new Dustbin (909,510,10,120);
+    binPart2 = new Dustbin (965,580,130,10);
+    binPart3 = new Dustbin (1020,510,10,120);
+    launcher = new Launcher (paper.body,{x:200, y:100});
+}
+
+function draw(){
+    background("white");
+    Engine.update(engine);
+
+   
+    paper.display();
+    
+    ground.display();
+    binPart1.display();
+    binPart2.display();
+    binPart3.display(); 
+      
+    drawSprites();
+}
+
+function mouseDragged()
 {
-	ballIMG = loadImage("paper.png");
-	dropGroundIMG = loadImage("dustbingreen.png");
+	Matter.Body.setPosition(paper.body, {x:mouseX, y:mouseY})
+  
 }
 
-function setup() {
-	createCanvas(800, 700);
-
-	paper = new Paper(width/2, 120, 10,10);
-	paper.addImage(ballIMG);
-	paper.scale = 0.6;
-
-
-	engine = Engine.create();
-	world = engine.world;
-
-	paper = Bodies.circle(width/2 , 200 , 5 , {restitution:0.5, isStatic:true});
-
-	groundSprite=createSprite(width/2, height-35, width,10);
-	groundSprite.shapeColor=color(255)
-
-	dropGround = createSprite(width/1.65, 570, 20,100);
-	dropGround.addImage(dropGroundIMG);
-	dropGround.scale = 0.6;
-
-
-	World.add(world, paper);
-
-	ground = Bodies.rectangle(width/2, 650, width, 10 , {isStatic:true} );
-	 World.add(world, ground);
+function mouseReleased()
+{
 	
-	Engine.run(engine);
-
-	launcher = new Launcher(paper.body,{x:200, y:100});
-
-
-	keyPressed();
-  
-}
-
-
-function draw() {
-  rectMode(CENTER);
-  background(1);
-
-  paper.display();
-  //launcher.display();
-  
-  drawSprites();
+	launcher.fly();
  
 }
-
-function keyPressed(){
-	if(keyCode === UP_ARROW){
-		ball.velocityY = 3;
-	}
-}
-
